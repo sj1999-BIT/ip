@@ -56,13 +56,18 @@ public class Duke {
         if (input.equals("list")) {
             showList();
             return true;
-        } else if (input.length() > 4 && input.substring(0, 4).equals("done")) {
-            int index = Character.getNumericValue(input.charAt(5));
-            if (index <= taskList.size() && index > 0) {
-                taskList.get(index - 1).done();
-            } else {
-                System.out.println("invalid index");
+        } else if (input.length() > 4 ) {
+            String[] newInput = input.split(" ");
+
+            if (newInput[0].equals("done")) {
+                int index = Integer.parseInt(newInput[1]);
+                if (index <= taskList.size() && index > 0) {
+                    taskList.get(index - 1).done();
+                } else {
+                    System.out.println("invalid index");
+                }
             }
+
         }else {
             Task newTask = new Task(input);
             taskList.add(newTask);
