@@ -150,6 +150,12 @@ public class Duke {
         return new Task(done, finalAction);
     }
 
+    /**
+     * Check the format of the input for Deadline
+     * @param action
+     * @param date
+     * @throws DeadlineExceptions
+     */
     private void checkDeadlineFormat(String action, String date) throws DeadlineExceptions {
         if (!action.equals("")) {
             String[] formatDate = date.split(":");
@@ -161,6 +167,12 @@ public class Duke {
         }
     }
 
+    /**
+     * Check the format of the input for Events
+     * @param action
+     * @param date
+     * @throws EventsException
+     */
     private void checkEventsFormat(String action, String date) throws EventsException {
         if (!action.equals("")) {
             String[] formatDate = date.split(":");
@@ -199,12 +211,9 @@ public class Duke {
         } else {
             String[] newInput = input.split(" ");
             if (newInput[0].equals("done")) {
-                int index = Integer.parseInt(newInput[1]);
-                if (index <= taskList.size() && index > 0) {
-                    taskList.get(index - 1).done();
-                } else {
-                    System.out.println("invalid index");
-                }
+                doneAction(newInput);
+            } else if (newInput[0].equals("delete")) {
+                deleteAction(newInput);
             } else {
                 try {
                     Task newTask = createTask(input);
@@ -225,6 +234,40 @@ public class Duke {
             }
             System.out.println(line);
             return true;
+        }
+    }
+
+    /**
+     * perform the action for done
+     * @param input
+     */
+    private void doneAction(String[] input) {
+        if ( input.length < 2) {
+            System.out.println("invalid syntax");
+        } else {
+            int index = Integer.parseInt(input[1]);
+            if (index <= taskList.size() && index > 0) {
+                taskList.get(index - 1).done();
+            } else {
+                System.out.println("invalid index");
+            }
+        }
+    }
+
+    private void deleteAction(String[] input) {
+        if ( input.length < 2) {
+            System.out.println("invalid syntax");
+        } else {
+            int index = Integer.parseInt(input[1]);
+            if (index <= taskList.size() && index > 0) {
+                System.out.println("Noted. I've removed this task: ");
+
+                System.out.println("    " + taskList.get(index - 1).toString());
+                taskList.remove(index - 1);
+                System.out.format("Now you have %d tasks in the list.\n", taskList.size());
+            } else {
+                System.out.println("invalid index");
+            }
         }
     }
 
